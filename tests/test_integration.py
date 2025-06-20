@@ -9,14 +9,14 @@ import json
 import time
 import sys
 from typing import Dict, Any
-from src.test_data import get_primary_citizen_id
+from src.test_data import get_patrick_citizen_id
 
 class KodiBOTTester:
     def __init__(self, api_base="http://localhost:8000", frontend_base="http://localhost:3000"):
         self.api_base = api_base
         self.frontend_base = frontend_base
         self.test_phone = "+243970123456"
-        self.test_citizen_id = get_primary_citizen_id()
+        self.test_citizen_id = get_patrick_citizen_id()
         self.current_otp = None
         
     def log(self, message: str, status: str = "INFO"):
@@ -206,7 +206,7 @@ class KodiBOTTester:
         
         test_messages = [
             ("START", "should trigger greeting"),
-            (get_primary_citizen_id(), "should prompt for OTP"),
+            (get_patrick_citizen_id(), "should prompt for OTP"),
             ("123456", "should complete linking"),
             ("Mon adresse", "should return quota message"),
             ("Mes parcelles", "should return quota message")

@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  kodibot:
+    build: .
+    container_name: kodibot-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./kodibot.db:/app/kodibot.db
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=sqlite:///kodibot.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-your_openai_key_here}
+    env_file:
+      - .env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a database service if you want to use PostgreSQL instead of SQLite
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: kodibot-db
+  #   environment:
+  #     POSTGRES_DB: kodibot
+  #     POSTGRES_USER: kodibot
+  #     POSTGRES_PASSWORD: your_password_here
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   ports:
+  #     - "5432:5432"
+# volumes:
+#   postgres_data:
